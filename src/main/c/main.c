@@ -10,9 +10,9 @@ typedef struct
 {
     sem_t mutex; // Mutex para la sección crítica
     sem_t cond[2]; //cola para cada dirección
-    int persons_in_bridge;
-    int current_direction;
-    int waiting_persons[2];
+    int persons_in_bridge; //sección crítica
+    int current_direction; //sección crítica
+    int waiting_persons[2]; //sección crítica
 }bridge_t;
 
 bridge_t bridge;
@@ -50,6 +50,7 @@ void * person (void * arg){
     printf("Person %d has crossed the bridge to %s\n", id, direction_names[direction]);
     printf("Persons in bridge: %d. Waiting persons: Direction LEFT -> %d, Direction RIGHT -> %d\n", 
     bridge.persons_in_bridge, bridge.waiting_persons[0], bridge.waiting_persons[1]);
+    sem_wait(&bridge.mutex); // Entrar a la sección crítica
     bridge.persons_in_bridge--; // Disminuir el número de personas en el puente
     if (bridge.persons_in_bridge == 0 ){
         bridge.current_direction = -1; // Actualizar la dirección actual cuando no hay personas
