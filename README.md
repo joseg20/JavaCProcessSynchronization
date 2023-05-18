@@ -14,4 +14,3 @@ La salida del programa muestra cuándo y en qué dirección las personas entran 
 ## Limpieza
 
 Para eliminar los archivos de clase compilados, usa el comando: `make clean`
-=
